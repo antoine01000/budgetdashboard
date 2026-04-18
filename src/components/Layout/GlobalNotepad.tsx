@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StickyNote } from 'lucide-react';
-import useAppStore from '../../store';
 
 const GlobalNotepad: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

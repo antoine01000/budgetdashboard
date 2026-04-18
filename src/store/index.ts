@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import { Person, Category, Expense, Cagnotte, SubCagnotte, User, Operation, Note } from '../types';
+import { Person, Category, Expense, Cagnotte, SubCagnotte, User } from '../types';
 
 interface AppState {
   currentUser: User | null;

@@ -96,11 +96,13 @@ Pas de tests configurés pour le moment.
 - [ ] Fix config ESLint (dépendance `@eslint/js` manquante, `npm run lint` KO)
 
 ### Refonte moyenne (1-2j)
-- [ ] Migrer state → **TanStack Query** (supprime ~500 lignes du store)
-- [ ] Découper store par domaine (`useExpenses`, `useCagnottes`, `useNotes`)
-- [ ] Ajouter **React Router** (URLs propres)
-- [ ] Découper les gros composants (charts, analysis, cagnottes)
-- [ ] `isLoading` par opération, pas global
+- [ ] Migrer state → **TanStack Query** (supprime ~500 lignes du store) — à faire contre le Pi, risque DB
+- [ ] Découper store par domaine (`useExpenses`, `useCagnottes`, `useNotes`) — idem
+- [x] Ajouter **React Router** (URLs propres, `/dashboard`, `/management`, `/cagnottes`, `/analysis`, `/notepad`)
+- [x] Découper `ExpenseCharts` (594→164) : `MonthlyTable`, `ExpensesByPerson`, `lib/chartjs`
+- [x] Découper `ExpenseAnalysis` (517→212) : `AnalysisFilters`, `useAnalysisData`
+- [x] Découper `CagnottesSection` (438→83) : `CagnotteItem`, `NoteModal`
+- [ ] `isLoading` par opération, pas global — à faire avec TanStack Query
 
 ### Plus gros (optionnel)
 - [ ] Tests (Vitest + RTL, cible : store + composants critiques)
@@ -148,6 +150,7 @@ Pas de tests configurés pour le moment.
 - [x] Vérification déploiement Netlify (actif, bundle OK)
 - [x] `CLAUDE.md` créé
 - [x] Quick wins poussés (commit `d1b3a43`) : title, ErrorBoundary, NavTabs, `.env.example`
+- [x] React Router + découpe des gros composants (commit suivant)
 - [ ] Setup Pi (Docker + Supabase CLI + stack)
 - [ ] Migration DB prod → Pi
 - [ ] Switch `.env` local vers Pi

@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import useAppStore from './store';
 import { AuthPage } from './components/Auth/AuthPage';
 import { TopNav } from './components/Layout/TopNav';
-import { NavTabs, TabId } from './components/Layout/NavTabs';
+import { NavTabs } from './components/Layout/NavTabs';
 import ExpenseCharts from './components/Charts/ExpenseCharts';
 import { AddExpenseModal } from './components/Expenses/AddExpenseModal';
 import { ManagementSection } from './components/Management/ManagementSection';
@@ -14,7 +15,8 @@ import { Plus } from 'lucide-react';
 function App() {
   const currentUser = useAppStore(state => state.currentUser);
   const [isAddExpenseModalOpen, setIsAddExpenseModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<TabId>('dashboard');
+  const location = useLocation();
+  const isDashboard = location.pathname === '/dashboard' || location.pathname === '/';
 
   if (!currentUser) {
     return <AuthPage />;
@@ -25,8 +27,8 @@ function App() {
       <TopNav />
       <div className="p-4 max-w-7xl mx-auto">
         <div className="mb-6 flex justify-between items-center">
-          <NavTabs activeTab={activeTab} onChange={setActiveTab} />
-          {activeTab === 'dashboard' && (
+          <NavTabs />
+          {isDashboard && (
             <button
               onClick={() => setIsAddExpenseModalOpen(true)}
               className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
@@ -37,16 +39,22 @@ function App() {
           )}
         </div>
 
-        {activeTab === 'dashboard' && <ExpenseCharts />}
-        {activeTab === 'management' && <ManagementSection />}
-        {activeTab === 'cagnottes' && <CagnottesSection />}
-        {activeTab === 'analysis' && <ExpenseAnalysis />}
-        {activeTab === 'notepad' && <Notepad />}
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<ExpenseCharts />} />
+          <Route path="/management" element={<ManagementSection />} />
+          <Route path="/cagnottes" element={<CagnottesSection />} />
+          <Route path="/analysis" element={<ExpenseAnalysis />} />
+          <Route path="/notepad" element={<Notepad />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
       </div>
 
-      {isAddExpenseModalOpen && (
-        <AddExpenseModal onClose={() => setIsAddExpenseModalOpen(false)} />
-      )}
+      <AddExpenseModal
+        isOpen={isAddExpenseModalOpen}
+        onClose={() => setIsAddExpenseModalOpen(false)}
+      />
+
     </div>
   );
 }

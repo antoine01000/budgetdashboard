@@ -12,7 +12,7 @@ interface NotepadStore {
   deleteNotepad: (id: string) => Promise<void>;
 }
 
-export const useNotepadStore = create<NotepadStore>((set, get) => ({
+export const useNotepadStore = create<NotepadStore>((set) => ({
   notepads: [],
   loading: false,
   error: null,
