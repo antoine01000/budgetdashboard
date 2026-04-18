@@ -7,7 +7,7 @@ interface Tab {
   icon: LucideIcon;
 }
 
-export const TABS: Tab[] = [
+const TABS: Tab[] = [
   { path: '/dashboard', label: 'Tableau de bord', icon: BarChart },
   { path: '/management', label: 'Gestion', icon: Users },
   { path: '/cagnottes', label: 'Cagnottes', icon: PiggyBank },

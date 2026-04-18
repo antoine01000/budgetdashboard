@@ -67,9 +67,9 @@ npm run dev        # Vite dev server
 npm run build      # build prod
 npm run lint       # ESLint
 npm run preview    # preview build
+npm test           # lance la suite Vitest
+npm run test:watch # Vitest en mode watch
 ```
-
-Pas de tests configurés pour le moment.
 
 ## Audit — dette technique identifiée
 
@@ -105,7 +105,10 @@ Pas de tests configurés pour le moment.
 - [ ] `isLoading` par opération, pas global — à faire avec TanStack Query
 
 ### Plus gros (optionnel)
-- [ ] Tests (Vitest + RTL, cible : store + composants critiques)
+- [x] Tests (Vitest + RTL setup) — 12 tests : `useAnalysisData` + `useToastStore`
+- [x] Code splitting par route (bundle initial 550 → 320 KB, -42%)
+- [x] Système de toasts (remplace les `set({ error })` jamais affichés)
+- [x] Accessibilité : hook `useEscapeKey` sur les 4 modals
 - [ ] Design system (shadcn/ui)
 - [ ] PWA (budget = usage mobile fréquent)
 - [ ] Squash des 18 migrations en une propre
@@ -150,7 +153,8 @@ Pas de tests configurés pour le moment.
 - [x] Vérification déploiement Netlify (actif, bundle OK)
 - [x] `CLAUDE.md` créé
 - [x] Quick wins poussés (commit `d1b3a43`) : title, ErrorBoundary, NavTabs, `.env.example`
-- [x] React Router + découpe des gros composants (commit suivant)
+- [x] React Router + découpe des gros composants (commit `9154c8a`)
+- [x] Code splitting + toasts + tests Vitest + accessibilité Esc (commit suivant)
 - [ ] Setup Pi (Docker + Supabase CLI + stack)
 - [ ] Migration DB prod → Pi
 - [ ] Switch `.env` local vers Pi

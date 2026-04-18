@@ -3,18 +3,10 @@ import { StickyNote } from 'lucide-react';
 
 const GlobalNotepad: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(() => localStorage.getItem('global_note') || '');
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: window.innerWidth - 380, y: 100 });
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-
-  // Charger la note depuis le localStorage
-  useEffect(() => {
-    const savedNote = localStorage.getItem('global_note');
-    if (savedNote) {
-      setContent(savedNote);
-    }
-  }, []);
 
   // Sauvegarder la note dans le localStorage
   const saveNote = () => {

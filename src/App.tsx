@@ -1,16 +1,26 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 import useAppStore from './store';
 import { AuthPage } from './components/Auth/AuthPage';
 import { TopNav } from './components/Layout/TopNav';
 import { NavTabs } from './components/Layout/NavTabs';
-import ExpenseCharts from './components/Charts/ExpenseCharts';
+import { RouteLoading } from './components/Layout/RouteLoading';
 import { AddExpenseModal } from './components/Expenses/AddExpenseModal';
-import { ManagementSection } from './components/Management/ManagementSection';
-import { CagnottesSection } from './components/Cagnottes/CagnottesSection';
-import { ExpenseAnalysis } from './components/Analysis/ExpenseAnalysis';
-import { Notepad } from './components/Notepad';
-import { Plus } from 'lucide-react';
+
+const ExpenseCharts = lazy(() => import('./components/Charts/ExpenseCharts'));
+const ManagementSection = lazy(() =>
+  import('./components/Management/ManagementSection').then(m => ({ default: m.ManagementSection })),
+);
+const CagnottesSection = lazy(() =>
+  import('./components/Cagnottes/CagnottesSection').then(m => ({ default: m.CagnottesSection })),
+);
+const ExpenseAnalysis = lazy(() =>
+  import('./components/Analysis/ExpenseAnalysis').then(m => ({ default: m.ExpenseAnalysis })),
+);
+const Notepad = lazy(() =>
+  import('./components/Notepad').then(m => ({ default: m.Notepad })),
+);
 
 function App() {
   const currentUser = useAppStore(state => state.currentUser);
@@ -39,22 +49,23 @@ function App() {
           )}
         </div>
 
-        <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<ExpenseCharts />} />
-          <Route path="/management" element={<ManagementSection />} />
-          <Route path="/cagnottes" element={<CagnottesSection />} />
-          <Route path="/analysis" element={<ExpenseAnalysis />} />
-          <Route path="/notepad" element={<Notepad />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
+        <Suspense fallback={<RouteLoading />}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={<ExpenseCharts />} />
+            <Route path="/management" element={<ManagementSection />} />
+            <Route path="/cagnottes" element={<CagnottesSection />} />
+            <Route path="/analysis" element={<ExpenseAnalysis />} />
+            <Route path="/notepad" element={<Notepad />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </Suspense>
       </div>
 
       <AddExpenseModal
         isOpen={isAddExpenseModalOpen}
         onClose={() => setIsAddExpenseModalOpen(false)}
       />
-
     </div>
   );
 }

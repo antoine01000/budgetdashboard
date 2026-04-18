@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useAppStore from '../../store';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { colorPalette } from '../../utils/colors';
 
 interface EditCategoryModalProps {
@@ -9,11 +10,15 @@ interface EditCategoryModalProps {
 
 export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ categoryId, onClose }) => {
   const { categories, updateCategory } = useAppStore();
+  useEscapeKey(() => {
+    if (categoryId !== null) onClose();
+  });
   const [mainCategory, setMainCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
   const [subSubCategory, setSubSubCategory] = useState('');
   const [color, setColor] = useState(colorPalette[0].hex);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (categoryId) {
       const category = categories.find(c => c.id === categoryId);
@@ -26,6 +31,7 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ categoryId
       }
     }
   }, [categoryId, categories]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

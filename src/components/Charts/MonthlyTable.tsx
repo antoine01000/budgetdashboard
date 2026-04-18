@@ -13,6 +13,7 @@ import {
   X,
 } from 'lucide-react';
 import useAppStore from '../../store';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { Category, Expense } from '../../types';
 
 interface Props {
@@ -29,6 +30,7 @@ const getVariation = (current: number, previous: number) => {
 export function MonthlyTable({ onClose, onEditExpense, onCopyMonth }: Props) {
   const { expenses, persons, categories, deleteExpense, updateCategoriesOrder } = useAppStore();
   const months = [...new Set(expenses.map(e => e.month))].sort();
+  useEscapeKey(onClose);
 
   const tableRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(!!document.fullscreenElement);
@@ -43,6 +45,8 @@ export function MonthlyTable({ onClose, onEditExpense, onCopyMonth }: Props) {
   }, []);
 
   useEffect(() => {
+    // Resync local ordering when parent categories change (e.g. after add/remove).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOrderedCategories(categories);
   }, [categories]);
 

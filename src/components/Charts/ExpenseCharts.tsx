@@ -39,33 +39,40 @@ export default function ExpenseCharts() {
     });
   };
 
-  const barData = {
-    labels: months,
-    datasets: Object.values(
-      expenses.reduce((acc: any, expense) => {
-        const person = persons.find(p => p.id === expense.person_id);
-        const category = categories.find(c => c.id === expense.category_id);
-        if (!category) return acc;
-        const key = `${expense.person_id}-${category.order}-${category.id}`;
-        if (!acc[key]) {
-          acc[key] = {
-            label: `${person?.name || '?'} - ${category.name}`,
-            data: {},
-            backgroundColor: category.color || 'gray',
-            stack: expense.person_id.toString(),
-            order: category.order,
-          };
-        }
-        acc[key].data[expense.month] = (acc[key].data[expense.month] || 0) + expense.amount;
-        return acc;
-      }, {}),
-    )
-      .sort((a: any, b: any) => a.order - b.order)
-      .map((dataset: any) => ({
-        ...dataset,
-        data: months.map(month => dataset.data[month] || 0),
-      })),
+  type Dataset = {
+    label: string;
+    data: Record<string, number>;
+    backgroundColor: string;
+    stack: string;
+    order: number;
   };
+
+  const datasets = Object.values(
+    expenses.reduce<Record<string, Dataset>>((acc, expense) => {
+      const person = persons.find(p => p.id === expense.person_id);
+      const category = categories.find(c => c.id === expense.category_id);
+      if (!category) return acc;
+      const key = `${expense.person_id}-${category.order}-${category.id}`;
+      if (!acc[key]) {
+        acc[key] = {
+          label: `${person?.name || '?'} - ${category.name}`,
+          data: {},
+          backgroundColor: category.color || 'gray',
+          stack: expense.person_id.toString(),
+          order: category.order ?? 0,
+        };
+      }
+      acc[key].data[expense.month] = (acc[key].data[expense.month] || 0) + expense.amount;
+      return acc;
+    }, {}),
+  )
+    .sort((a, b) => a.order - b.order)
+    .map(dataset => ({
+      ...dataset,
+      data: months.map(month => dataset.data[month] || 0),
+    }));
+
+  const barData = { labels: months, datasets };
 
   const numMonths = months.length;
   const categoryTotals = categories

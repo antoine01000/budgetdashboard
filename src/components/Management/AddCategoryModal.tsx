@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import useAppStore from '../../store';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { colorPalette } from '../../utils/colors';
 
 interface AddCategoryModalProps {
@@ -11,6 +12,9 @@ type CategoryLevel = 'main' | 'sub' | 'subsub';
 
 export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({ isOpen, onClose }) => {
   const { categories, addCategory } = useAppStore();
+  useEscapeKey(() => {
+    if (isOpen) onClose();
+  });
   const [categoryLevel, setCategoryLevel] = useState<CategoryLevel>('main');
   const [selectedMainId, setSelectedMainId] = useState('');
   const [selectedSubId, setSelectedSubId] = useState('');

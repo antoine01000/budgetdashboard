@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Cagnotte } from '../../types';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 
 interface Props {
   onClose: () => void;
@@ -10,6 +11,7 @@ interface Props {
 
 export function NoteModal({ onClose, cagnotte, onSave, onDelete }: Props) {
   const [content, setContent] = useState(cagnotte.note?.content || '');
+  useEscapeKey(onClose);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">

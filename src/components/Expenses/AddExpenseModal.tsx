@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import useAppStore from '../../store';
-import { Category, Expense } from '../../types';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { Expense } from '../../types';
 
 interface AddExpenseModalProps {
   isOpen: boolean;
@@ -19,6 +20,9 @@ interface CategoryGroup {
 
 export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, editExpense, onEdit }) => {
   const { persons, categories, addExpense } = useAppStore();
+  useEscapeKey(() => {
+    if (isOpen) onClose();
+  });
   const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
   const [amount, setAmount] = useState('');
   const [personId, setPersonId] = useState('');
@@ -27,7 +31,10 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClos
   const [subSubCategory, setSubSubCategory] = useState('');
   const [comment, setComment] = useState('');
 
-  // Initialiser les valeurs si on est en mode édition
+  // Initialiser les valeurs si on est en mode édition.
+  // Ce pattern "setState from props" est attendu ici: la modale est un composant
+  // persistant et on synchronise le formulaire quand la prop editExpense change.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (editExpense) {
       setMonth(editExpense.month);
@@ -35,7 +42,6 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClos
       setPersonId(editExpense.person_id);
       setComment(editExpense.comment || '');
 
-      // Trouver la catégorie et initialiser les sélecteurs
       const category = categories.find(c => c.id === editExpense.category_id);
       if (category) {
         const parts = category.name.split(' > ');
@@ -45,6 +51,7 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClos
       }
     }
   }, [editExpense, categories]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Organiser les catégories par niveaux
   const categoryGroups = useMemo(() => {
