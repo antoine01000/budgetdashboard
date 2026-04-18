@@ -90,10 +90,10 @@ npm run test:watch # Vitest en mode watch
 ### Quick wins (1-2h)
 - [x] Title correct dans `index.html` (commit `d1b3a43`)
 - [x] ErrorBoundary global (`src/components/ErrorBoundary.tsx`)
-- [x] Extraire `<NavTabs>` (`src/components/Layout/NavTabs.tsx`) — App.tsx passe de 108 à 55 lignes
+- [x] Extraire `<NavTabs>` (`src/components/Layout/NavTabs.tsx`)
 - [x] `.env.example`
+- [x] Fix config ESLint (dépendances installées, `npm run lint` OK, 0 erreurs)
 - [ ] Régénérer types Supabase (`supabase gen types typescript`) — nécessite Supabase CLI
-- [ ] Fix config ESLint (dépendance `@eslint/js` manquante, `npm run lint` KO)
 
 ### Refonte moyenne (1-2j)
 - [ ] Migrer state → **TanStack Query** (supprime ~500 lignes du store) — à faire contre le Pi, risque DB
@@ -152,10 +152,13 @@ npm run test:watch # Vitest en mode watch
 - [x] Vérification connexion Supabase prod (actif)
 - [x] Vérification déploiement Netlify (actif, bundle OK)
 - [x] `CLAUDE.md` créé
-- [x] Quick wins poussés (commit `d1b3a43`) : title, ErrorBoundary, NavTabs, `.env.example`
+- [x] Quick wins (commit `d1b3a43`) : title, ErrorBoundary, NavTabs, `.env.example`
 - [x] React Router + découpe des gros composants (commit `9154c8a`)
-- [x] Code splitting + toasts + tests Vitest + accessibilité Esc (commit suivant)
+- [x] Code splitting + toasts + tests Vitest + accessibilité Esc (commit `afa5947`)
+- [x] PWA : manifest, service worker, icônes, installable mobile (commit `c160901`)
 - [ ] Setup Pi (Docker + Supabase CLI + stack)
 - [ ] Migration DB prod → Pi
 - [ ] Switch `.env` local vers Pi
-- [ ] Lancer la refonte moyenne (TanStack Query, React Router, découpe du store)
+- [ ] Refonte du store (TanStack Query, découpe par domaine) — nécessite le Pi
+- [ ] Design system (shadcn/ui) — optionnel
+- [ ] Squash des 18 migrations en une propre — à faire avant cut-over cloud
