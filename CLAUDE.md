@@ -88,11 +88,12 @@ Pas de tests configurés pour le moment.
 ## Plan de refonte
 
 ### Quick wins (1-2h)
-- [ ] Title correct dans `index.html`
-- [ ] ErrorBoundary global
-- [ ] Extraire `<NavTabs>` (stop la duplication ×5)
-- [ ] `.env.example`
-- [ ] Régénérer types Supabase (`supabase gen types typescript`)
+- [x] Title correct dans `index.html` (commit `d1b3a43`)
+- [x] ErrorBoundary global (`src/components/ErrorBoundary.tsx`)
+- [x] Extraire `<NavTabs>` (`src/components/Layout/NavTabs.tsx`) — App.tsx passe de 108 à 55 lignes
+- [x] `.env.example`
+- [ ] Régénérer types Supabase (`supabase gen types typescript`) — nécessite Supabase CLI
+- [ ] Fix config ESLint (dépendance `@eslint/js` manquante, `npm run lint` KO)
 
 ### Refonte moyenne (1-2j)
 - [ ] Migrer state → **TanStack Query** (supprime ~500 lignes du store)
@@ -146,7 +147,8 @@ Pas de tests configurés pour le moment.
 - [x] Vérification connexion Supabase prod (actif)
 - [x] Vérification déploiement Netlify (actif, bundle OK)
 - [x] `CLAUDE.md` créé
+- [x] Quick wins poussés (commit `d1b3a43`) : title, ErrorBoundary, NavTabs, `.env.example`
 - [ ] Setup Pi (Docker + Supabase CLI + stack)
 - [ ] Migration DB prod → Pi
 - [ ] Switch `.env` local vers Pi
-- [ ] Lancer la refonte (quick wins puis refonte moyenne)
+- [ ] Lancer la refonte moyenne (TanStack Query, React Router, découpe du store)
