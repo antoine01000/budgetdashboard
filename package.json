@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.7",
@@ -27,6 +28,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "@vite-pwa/assets-generator": "^1.0.2",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.18",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -38,6 +40,8 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.58.2",
     "vite": "^5.4.2",
-    "vitest": "^4.1.4"
+    "vite-plugin-pwa": "^1.2.0",
+    "vitest": "^4.1.4",
+    "workbox-window": "^7.4.0"
   }
 }

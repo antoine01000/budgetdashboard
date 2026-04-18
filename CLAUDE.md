@@ -109,8 +109,8 @@ npm run test:watch # Vitest en mode watch
 - [x] Code splitting par route (bundle initial 550 → 320 KB, -42%)
 - [x] Système de toasts (remplace les `set({ error })` jamais affichés)
 - [x] Accessibilité : hook `useEscapeKey` sur les 4 modals
+- [x] PWA (installable mobile + offline shell + SW auto-update) — `vite-plugin-pwa`
 - [ ] Design system (shadcn/ui)
-- [ ] PWA (budget = usage mobile fréquent)
 - [ ] Squash des 18 migrations en une propre
 
 ## Environnement de dev — Supabase self-hosted sur Raspberry Pi
